@@ -671,97 +671,82 @@ export default function Home() {
 
 function DashboardMockup() {
   return (
-    <div className="relative mx-auto max-w-[720px]">
-      <div className="rounded-[28px] bg-[#17195d] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
-        <div className="grid min-h-[500px] grid-cols-[0.25fr_0.75fr] overflow-hidden rounded-[24px] bg-white">
-          <div className="bg-[#18145d] p-5 text-white">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="h-4 w-20 rounded-full bg-white/25" />
-              <div className="h-4 w-4 rounded-full bg-white/25" />
+    <div className="relative mx-auto max-w-[680px]">
+      <div className="rounded-[28px] bg-[#17195d] p-3 shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
+        <div className="flex overflow-hidden rounded-[20px] bg-white">
+          {/* Sidebar */}
+          <div className="w-[120px] shrink-0 bg-[#18145d] p-4 text-white">
+            <div className="mb-5 space-y-1">
+              <div className="h-2 w-14 rounded-full bg-white/25" />
+              <div className="h-2 w-8 rounded-full bg-white/15" />
             </div>
-
-            <SidebarItem title="Impact" />
-            <SidebarItem title="Brevity" />
-            <SidebarItem title="Style" />
-            <SidebarItem title="Skills" />
+            {["Impact", "Brevity", "Style", "Skills"].map((t) => (
+              <div key={t} className="mb-6">
+                <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-white/70">{t}</div>
+                <div className="space-y-1.5">
+                  <div className="h-1.5 rounded-full bg-white/20" />
+                  <div className="h-1.5 w-4/5 rounded-full bg-white/15" />
+                  <div className="h-1.5 w-2/3 rounded-full bg-white/10" />
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="bg-[#f5f7ff] p-5">
-            <div className="rounded-2xl bg-white p-5 shadow-sm">
-              <div className="grid gap-5 md:grid-cols-[0.3fr_0.7fr]">
-                <div className="flex flex-col items-center justify-center">
-                  <div className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-[#e28c61] text-4xl font-bold text-slate-700">
+          {/* Main content */}
+          <div className="flex-1 bg-[#f5f7ff] p-4 overflow-hidden">
+            {/* Score card */}
+            <div className="rounded-xl bg-white p-4 shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="shrink-0 flex flex-col items-center">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-[#e28c61] text-3xl font-bold text-slate-700">
                     78
                   </div>
-                  <div className="mt-2 text-sm text-slate-500">Overall Score</div>
+                  <div className="mt-1 text-[11px] text-slate-500">Overall Score</div>
                 </div>
-
-                <div className="flex flex-col justify-center">
-                  <div className="text-2xl font-bold text-slate-700">
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-bold text-slate-700 leading-snug">
                     Your resume scored 78 out of 100.
                   </div>
-                  <div className="mt-4 space-y-3">
-                    <SkeletonBar />
-                    <SkeletonBar />
-                    <SkeletonBar short />
+                  <div className="mt-3 space-y-2">
+                    <div className="h-2 rounded-full bg-slate-200" />
+                    <div className="h-2 rounded-full bg-slate-200" />
+                    <div className="h-2 w-2/3 rounded-full bg-slate-200" />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 text-sm font-bold tracking-widest text-[#1b1458]">
-              BREAKDOWN
-            </div>
-
-            <div className="mt-4 grid grid-cols-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            {/* Breakdown */}
+            <div className="mt-3 text-[10px] font-bold tracking-widest text-[#1b1458]">BREAKDOWN</div>
+            <div className="mt-2 grid grid-cols-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
               <BreakdownCell title="IMPACT" score="100" tag="EXCELLENT" tagColor="green" />
               <BreakdownCell title="BREVITY" score="65" tag="AVERAGE" tagColor="orange" />
-              <BreakdownCell title="STYLE" score="90" tag="VERY GOOD" tagColor="green" />
+              <BreakdownCell title="STYLE" score="90" tag="GOOD" tagColor="green" />
               <BreakdownCell title="SKILLS" score="78" tag="GOOD" tagColor="green" />
             </div>
 
-            <div className="mt-5 grid gap-4 md:grid-cols-[0.28fr_0.72fr]">
-              <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-4 border-[#55d4c4] text-3xl font-bold text-slate-700">
-                  100
-                </div>
-                <div className="mt-2 text-center text-sm text-slate-500">Impact Score</div>
+            {/* Impact detail */}
+            <div className="mt-3 flex gap-3">
+              <div className="shrink-0 rounded-xl bg-white p-3 shadow-sm flex flex-col items-center justify-center w-[90px]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#55d4c4] text-2xl font-bold text-slate-700">100</div>
+                <div className="mt-1 text-[10px] text-center text-slate-500">Impact</div>
               </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <div className="grid gap-4 md:grid-cols-2">
+              <div className="flex-1 rounded-xl bg-white p-3 shadow-sm">
+                <div className="space-y-2">
                   <CheckItem text="Quantifying impact" />
                   <CheckItem text="Unique action verbs" />
                   <CheckItem text="Strong action verbs" />
-                  <CheckItem text="Accomplishment-oriented" />
                   <CheckItem text="No spelling errors" />
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="absolute -right-10 top-8 hidden h-44 w-24 rounded-md bg-white/85 shadow-2xl lg:block" />
       </div>
     </div>
   );
 }
 
-function SidebarItem({ title }: { title: string }) {
-  return (
-    <div className="mb-10">
-      <div className="mb-4 text-sm font-bold uppercase tracking-widest text-white/80">
-        {title}
-      </div>
-      <div className="space-y-3">
-        <div className="h-3 rounded-full bg-white/18" />
-        <div className="h-3 w-4/5 rounded-full bg-white/18" />
-        <div className="h-3 w-3/4 rounded-full bg-white/18" />
-        <div className="h-3 w-2/3 rounded-full bg-white/18" />
-      </div>
-    </div>
-  );
-}
 
 function BreakdownCell({
   title,
@@ -775,11 +760,11 @@ function BreakdownCell({
   tagColor: "green" | "orange";
 }) {
   return (
-    <div className="border-r border-slate-200 p-4 last:border-r-0">
-      <div className="text-xs font-bold tracking-widest text-slate-500">{title}</div>
-      <div className="mt-3 text-3xl font-bold text-[#4c3cff]">{score}<span className="text-sm text-slate-400">/100</span></div>
+    <div className="border-r border-slate-200 p-2 last:border-r-0">
+      <div className="text-[9px] font-bold tracking-wide text-slate-400 truncate">{title}</div>
+      <div className="mt-1 text-lg font-bold text-[#4c3cff] leading-none">{score}<span className="text-[9px] text-slate-400">/100</span></div>
       <div
-        className={`mt-3 inline-flex rounded-full px-2 py-1 text-[10px] font-bold ${
+        className={`mt-1.5 inline-flex rounded-full px-1.5 py-0.5 text-[8px] font-bold leading-none ${
           tagColor === "green"
             ? "bg-green-100 text-green-700"
             : "bg-orange-100 text-orange-700"
@@ -793,9 +778,9 @@ function BreakdownCell({
 
 function CheckItem({ text }: { text: string }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="text-lg font-bold text-emerald-500">✓</div>
-      <div className="text-sm font-semibold text-slate-700">{text}</div>
+    <div className="flex items-center gap-2">
+      <div className="shrink-0 text-sm font-bold text-emerald-500">✓</div>
+      <div className="text-[11px] font-semibold text-slate-700 leading-tight">{text}</div>
     </div>
   );
 }
