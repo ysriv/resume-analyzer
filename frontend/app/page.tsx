@@ -58,6 +58,8 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
+  const [activeTab, setActiveTab] = useState<"review" | "samples" | "targeting" | "linkedin">("review");
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -335,15 +337,156 @@ export default function Home() {
             keyword gaps, and instantly receive actionable suggestions to improve it.
           </p>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-4">
-            <FeatureTab title="Instant Resume Review" active />
-            <FeatureTab title="Resume Samples" />
-            <FeatureTab title="Resume Targeting" />
-            <FeatureTab title="LinkedIn Optimization" />
+          <div className="mt-12 grid gap-0 md:grid-cols-4 rounded-2xl overflow-hidden border border-white/10">
+            <FeatureTab title="Instant Resume Review" active={activeTab === "review"} onClick={() => setActiveTab("review")} />
+            <FeatureTab title="Resume Samples" active={activeTab === "samples"} onClick={() => setActiveTab("samples")} />
+            <FeatureTab title="Resume Targeting" active={activeTab === "targeting"} onClick={() => setActiveTab("targeting")} />
+            <FeatureTab title="LinkedIn Optimization" active={activeTab === "linkedin"} onClick={() => setActiveTab("linkedin")} />
           </div>
         </div>
       </section>
 
+      {/* ── Resume Samples ── */}
+      {activeTab === "samples" && (
+        <section className="bg-[#082c66] px-6 pb-20 pt-4">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-white">Resume Samples</h2>
+              <p className="mt-3 text-white/65">Browse professionally crafted resume templates for different roles and industries.</p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {RESUME_SAMPLES.map((s) => (
+                <ResumeSampleCard key={s.role} {...s} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Resume Targeting ── */}
+      {activeTab === "targeting" && (
+        <section className="bg-[#082c66] px-6 pb-20 pt-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-white">Resume Targeting</h2>
+              <p className="mt-3 text-white/65">Tailor your resume to a specific job description and maximize your match score.</p>
+            </div>
+            <div className="rounded-[32px] bg-[linear-gradient(135deg,#173f8f,#0d2f72)] p-8 shadow-2xl">
+              <div className="grid gap-8 lg:grid-cols-2">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">How Resume Targeting Works</h3>
+                  <div className="space-y-4">
+                    {TARGETING_STEPS.map((step, i) => (
+                      <div key={i} className="flex gap-4">
+                        <div className="shrink-0 flex h-9 w-9 items-center justify-center rounded-full bg-cyan-400 text-slate-900 font-bold text-sm">{i + 1}</div>
+                        <div>
+                          <div className="font-bold text-white">{step.title}</div>
+                          <div className="text-sm text-white/65 mt-1">{step.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-white">Keywords That Matter</h3>
+                  <p className="text-white/65 text-sm">Paste a job description in the upload section and we extract the most important keywords for you.</p>
+                  <div className="rounded-2xl bg-white/10 p-5 border border-white/10">
+                    <div className="text-xs font-bold tracking-widest text-cyan-200 mb-3">EXAMPLE KEYWORD MATCH</div>
+                    <div className="flex flex-wrap gap-2">
+                      {["Python", "FastAPI", "PostgreSQL", "Docker", "REST API", "CI/CD", "AWS"].map((k) => (
+                        <span key={k} className="rounded-full bg-emerald-400/20 border border-emerald-400/30 px-3 py-1 text-sm font-semibold text-emerald-200">{k} ✓</span>
+                      ))}
+                      {["Kubernetes", "Terraform"].map((k) => (
+                        <span key={k} className="rounded-full bg-red-400/15 border border-red-400/25 px-3 py-1 text-sm font-semibold text-red-200">{k} ✗</span>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-xs text-white/50">Green = matched in your resume · Red = missing keywords to add</p>
+                  </div>
+                  <button
+                    onClick={() => { setActiveTab("review"); document.getElementById("upload-section")?.scrollIntoView({ behavior: "smooth" }); }}
+                    className="w-full rounded-2xl bg-[#22c58b] px-6 py-4 font-bold text-white transition hover:scale-[1.01]"
+                  >
+                    Try it — Upload Resume + Job Description
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
+              {TARGETING_TIPS.map((tip) => (
+                <div key={tip.title} className="rounded-[24px] bg-white/5 border border-white/10 p-6">
+                  <div className="text-3xl mb-3">{tip.icon}</div>
+                  <div className="font-bold text-white">{tip.title}</div>
+                  <div className="mt-2 text-sm text-white/60 leading-relaxed">{tip.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── LinkedIn Optimization ── */}
+      {activeTab === "linkedin" && (
+        <section className="bg-[#082c66] px-6 pb-20 pt-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl font-bold text-white">LinkedIn Optimization</h2>
+              <p className="mt-3 text-white/65">Turn your resume analysis into a powerful LinkedIn profile that attracts recruiters.</p>
+            </div>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="rounded-[32px] bg-[linear-gradient(135deg,#0f766e,#0e7490)] p-8 shadow-2xl text-white">
+                <h3 className="text-2xl font-bold mb-6">LinkedIn Profile Checklist</h3>
+                <div className="space-y-3">
+                  {LINKEDIN_CHECKLIST.map((item) => (
+                    <div key={item.label} className="flex items-start gap-3">
+                      <div className={`mt-0.5 shrink-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold ${item.done ? "bg-emerald-400 text-slate-900" : "bg-white/20 text-white"}`}>
+                        {item.done ? "✓" : "•"}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-sm">{item.label}</div>
+                        <div className="text-xs text-white/60 mt-0.5">{item.tip}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div className="rounded-[24px] bg-white/5 border border-white/10 p-6">
+                  <h3 className="font-bold text-white mb-4 text-lg">Section-by-Section Tips</h3>
+                  <div className="space-y-4">
+                    {LINKEDIN_SECTIONS.map((s) => (
+                      <div key={s.section} className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-lg">{s.icon}</span>
+                          <span className="font-bold text-white text-sm">{s.section}</span>
+                        </div>
+                        <p className="text-xs text-white/60 leading-relaxed">{s.tip}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-[24px] bg-gradient-to-br from-cyan-400 to-blue-500 p-6 text-slate-900 shadow-xl">
+                  <h3 className="text-lg font-bold mb-2">Pro Tip</h3>
+                  <p className="text-sm font-medium leading-relaxed">
+                    Upload your resume above and we&apos;ll generate a tailored LinkedIn summary rewrite based on your actual experience and scores.
+                  </p>
+                  <button
+                    onClick={() => { setActiveTab("review"); document.getElementById("upload-section")?.scrollIntoView({ behavior: "smooth" }); }}
+                    className="mt-4 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-bold text-white hover:bg-slate-800 transition"
+                  >
+                    Get My LinkedIn Summary →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Instant Resume Review (upload section) ── */}
+      {activeTab === "review" && (<>
       <section id="upload-section" className="bg-[#082c66] px-6 pb-20">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-[36px] bg-[linear-gradient(135deg,#173f8f_0%,#0d2f72_100%)] p-8 shadow-2xl lg:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-[30px] bg-white/5 p-5">
@@ -665,9 +808,79 @@ export default function Home() {
           )}
         </div>
       </section>
+      </>)} {/* end activeTab === "review" */}
     </main>
   );
 }
+
+// ── Static data ────────────────────────────────────────────────
+const RESUME_SAMPLES = [
+  { role: "Software Engineer", level: "Mid-level", industry: "Tech", tags: ["Python", "React", "AWS"], score: 91, tips: "Quantify impact with numbers. Show ownership of features end-to-end." },
+  { role: "Product Manager", level: "Senior", industry: "Tech", tags: ["Roadmap", "OKRs", "SQL"], score: 88, tips: "Lead with outcomes, not outputs. Highlight cross-functional collaboration." },
+  { role: "Data Scientist", level: "Entry", industry: "Finance", tags: ["Python", "ML", "SQL"], score: 85, tips: "Include links to Kaggle/GitHub projects. Show real dataset experience." },
+  { role: "UX Designer", level: "Mid-level", industry: "E-commerce", tags: ["Figma", "Usability", "A/B"], score: 87, tips: "Case studies beat bullet points. Link to portfolio in header." },
+  { role: "Marketing Manager", level: "Senior", industry: "SaaS", tags: ["SEO", "Paid Ads", "HubSpot"], score: 83, tips: "Show revenue impact of campaigns. Include growth percentages." },
+  { role: "DevOps Engineer", level: "Mid-level", industry: "Cloud", tags: ["Kubernetes", "Docker", "CI/CD"], score: 90, tips: "Highlight uptime improvements and deploy frequency metrics." },
+];
+
+const TARGETING_STEPS = [
+  { title: "Upload your resume", desc: "PDF or DOCX — we extract all text and structure automatically." },
+  { title: "Paste the job description", desc: "Copy the full JD from LinkedIn, Indeed, or any job board." },
+  { title: "Get keyword gap analysis", desc: "We compare your resume to the JD and surface missing keywords." },
+  { title: "Apply the suggestions", desc: "Add missing keywords naturally throughout your resume sections." },
+];
+
+const TARGETING_TIPS = [
+  { icon: "🎯", title: "Mirror the job title", desc: "Use the exact job title from the posting somewhere in your resume headline or summary." },
+  { icon: "🔑", title: "Keyword density matters", desc: "ATS systems score based on keyword frequency. Aim for 3–5 mentions of core skills." },
+  { icon: "📊", title: "Quantify everything", desc: "Numbers stand out in ATS parsing. Turn responsibilities into achievements with metrics." },
+];
+
+const LINKEDIN_CHECKLIST = [
+  { label: "Professional photo", tip: "Profiles with photos get 21× more views.", done: true },
+  { label: "Compelling headline", tip: "Go beyond job title — include your value proposition.", done: true },
+  { label: "About section (2000 chars)", tip: "Tell your story, not just your job history.", done: false },
+  { label: "Featured section", tip: "Pin your best work — projects, articles, or media.", done: false },
+  { label: "Skills & endorsements", tip: "Add at least 10 skills; endorsed skills rank higher.", done: true },
+  { label: "Recommendations", tip: "Ask managers or peers for written recommendations.", done: false },
+  { label: "Open to Work", tip: "Enable privately to appear in recruiter searches.", done: false },
+];
+
+const LINKEDIN_SECTIONS = [
+  { icon: "📝", section: "Headline", tip: "Format: [Role] | [Specialty] | [Value]. E.g. 'Software Engineer | React & Node.js | Building scalable products'" },
+  { icon: "💼", section: "Experience", tip: "Mirror your resume bullet points. Add media (screenshots, links) to each role." },
+  { icon: "🎓", section: "About", tip: "Start with a hook. Describe who you help, how you do it, and what makes you different. End with a CTA." },
+  { icon: "🔧", section: "Skills", tip: "Prioritize skills mentioned in your target job descriptions. Reorder them to put top skills first." },
+];
+
+function ResumeSampleCard({ role, level, industry, tags, score, tips }: {
+  role: string; level: string; industry: string; tags: string[]; score: number; tips: string;
+}) {
+  return (
+    <div className="rounded-[28px] bg-white/5 border border-white/10 p-6 hover:bg-white/8 transition">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="text-lg font-bold text-white">{role}</div>
+          <div className="mt-1 text-sm text-white/55">{level} · {industry}</div>
+        </div>
+        <div className={`shrink-0 flex h-12 w-12 items-center justify-center rounded-full text-lg font-extrabold ${score >= 90 ? "bg-emerald-400 text-slate-900" : score >= 85 ? "bg-cyan-400 text-slate-900" : "bg-amber-400 text-slate-900"}`}>
+          {score}
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {tags.map((t) => (
+          <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/80">{t}</span>
+        ))}
+      </div>
+      <p className="mt-4 text-sm text-white/55 leading-relaxed border-t border-white/10 pt-4">{tips}</p>
+      <button className="mt-4 w-full rounded-xl bg-white/10 hover:bg-white/15 py-2.5 text-sm font-bold text-white transition">
+        View Sample Template →
+      </button>
+    </div>
+  );
+}
+
+// ───────────────────────────────────────────────────────────────
 
 function DashboardMockup() {
   return (
@@ -793,17 +1006,18 @@ function SkeletonBar({ short = false }: { short?: boolean }) {
   );
 }
 
-function FeatureTab({ title, active = false }: { title: string; active?: boolean }) {
+function FeatureTab({ title, active = false, onClick }: { title: string; active?: boolean; onClick?: () => void }) {
   return (
-    <div
-      className={`rounded-t-2xl px-6 py-8 text-center text-lg font-bold ${
+    <button
+      onClick={onClick}
+      className={`px-6 py-6 text-center text-base font-bold transition-colors ${
         active
           ? "bg-[#1d47a2] text-white"
-          : "bg-transparent text-white/70"
+          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
       }`}
     >
       {title}
-    </div>
+    </button>
   );
 }
 
