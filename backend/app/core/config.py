@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str = "change-this-in-production"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
+    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000", "https://resume-analyzer-plum-nine.vercel.app"]
     LLM_PROVIDER: str = "mock"
     LLM_API_KEY: str = ""
     LLM_MODEL: str = ""
